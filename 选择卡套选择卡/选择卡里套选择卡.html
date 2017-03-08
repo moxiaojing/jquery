@@ -1,0 +1,215 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+<style>
+body,ul{
+	padding: 0;
+	margin: 0;
+}
+li{
+	list-style: none;
+}
+.wrap{
+	width: 964px;
+	height: 328px;
+	padding: 8px 4px;
+	border:1px solid #c6c6c6;
+	margin: 10px auto;
+}
+.left{
+	float:left;
+	background: #e7e7e7;
+}
+.left li{
+	width: 146px;
+	height: 82px;
+	line-height: 82px;
+	text-align: center;
+	border-left: 1px solid #c6c6c6;
+	border-top:1px solid #c6c6c6;
+}
+.left .last_li{
+	border-bottom: 1px solid #c6c6c6;
+}
+.li_active{
+	background: #fff;
+}
+.right div{
+	float:left;
+	width: 812px;
+	height: 330px;
+	position: relative;
+	display: none;
+}
+.right img{
+	width: 812px;
+	height: 330px;
+	display: none;
+	
+}
+div.con_active{
+	display: block;
+}
+.right ul{
+	width: 812px;
+	position: absolute;
+	top:300px;
+	color:#000;
+}
+.right li{
+	float:left;
+	width: 33.2%;
+	height: 30px;
+	line-height: 30px;
+	font-size: 12px;
+	text-align: center;
+    background: #4a4a4a;
+    opacity: 0.6;
+    margin-right: 1px;
+    color:#fff;
+}
+.flex4 li{
+	width: 24.8%;
+}
+.right .li_color{
+	background: red;
+}
+.no_margin{
+	margin-right: 0;
+}
+img.img_active{
+	display: block;
+}
+</style>
+<script src="jquery-3.1.1.min.js"></script>
+<script>
+/*
+ * 增加需求:
+ 如果点击的是已经选中的左侧li,那么,就保留原显示的img图片,不切换
+ 
+*/
+function reAllClass( arr1,className1,arr2,className2){
+	
+	$(arr1).each(function( index,item ){
+		//每次执行传递进来的函数时，函数中的this关键字都指向一个不同的DOM元素(每次都是一个不同的匹配元素)
+		//item == this;
+		$(item).removeClass(className1);//去掉class
+		$(item).attr("index",index);//给每个item添加index
+		
+		var index = $(item).attr("index");
+		arr2.eq(index).removeClass(className2);
+		
+	})
+	
+}
+
+$(document).ready(function(){
+	
+	//DOM节点加载完成之后，执行下面的代码
+	//获取元素
+	var leftLi = $("#left li");
+	var divs = $("#right div");
+	var rightLi = $("#right li");
+	
+	//arr1控制arr2，去掉class
+	
+	//bind：为每个匹配元素的特定事件绑定事件处理函数。
+	leftLi.bind({
+		//鼠标移入事件，全部清空class，并给当前li添加class，然后#right里面对应的div添加class
+		click:function(){
+			
+			//全部清空class,包括li和div的
+			reAllClass(leftLi,"li_active",divs,"con_active");
+			
+			var index = $(this).attr("index");
+			divs.eq(index).addClass("con_active");
+			$(this).addClass("li_active");
+			
+			
+		}	
+	})
+	
+	rightLi.bind({
+		//鼠标移入事件，全部清空class，移入当前li，显示出dangqianli对应的img
+		mouseenter:function(){
+			var rightLi = $(".con_active li");
+			var imgs = $(".con_active img");
+			
+			//全部清空class,包括li和img
+			reAllClass( rightLi,"li_color",imgs,"img_active")
+			
+			var index = $(this).attr("index");
+			imgs.eq(index).addClass("img_active");
+			$(this).addClass("li_color");
+		}
+	
+	})
+	
+})
+</script>
+</head>
+
+<body>
+	<div class="wrap">
+		<ul class="left" id="left">
+			<li class="li_active">最热团购</li>
+			<li>商城特惠</li>
+			<li>名品推荐</li>
+			<li class="last_li">缤纷活动</li>
+		</ul>
+		<div class="right" id="right">
+			
+			<div class="con_active">
+				<img src="images/img1.jpg" class="img_active"/>
+				<img src="images/img2.jpg" />
+				<img src="images/img3.jpg" />
+				<ul>
+					<li class="li_color">第一个第一项</li>
+					<li>第一个第二项</li>
+					<li class="margin-right">第一个第三项</li>
+				</ul>
+			</div>
+
+			<div>
+				<img src="images/img4.jpg" class="img_active"/>
+				<img src="images/img5.jpg" />
+				<img src="images/img6.jpg" />
+				<img src="images/img7.jpg" />
+				<ul class="flex4">
+					<li class="li_color">第二个第一项</li>
+					<li>第二个第二项</li>
+					<li>第二个第三项</li>
+					<li class="margin-right">第二个第四项</li>
+				</ul>
+			</div>
+
+			<div>
+				<img src="images/img8.jpg" class="img_active"/>
+				<img src="images/img9.jpg" />
+				<img src="images/img10.jpg" />
+				<ul>
+					<li class="li_color">第三个第一项</li>
+					<li>第三个第二项</li>
+					<li>第三个第三项</li>
+				</ul>
+			</div>
+
+			<div>
+				<img src="images/img11.jpg" class="img_active"/>
+				<img src="images/img12.jpg" />
+				<img src="images/img13.jpg" />
+				<img src="images/img1.jpg" />
+				<ul class="flex4">
+					<li class="li_color">第四个第一项</li>
+					<li>第四个第二项</li>
+					<li>第四个第三项</li>
+					<li class="margin-right">第四个第四项</li>
+				</ul>
+			</div>
+			
+		</div>
+	</div>
+</body>
+</html>
